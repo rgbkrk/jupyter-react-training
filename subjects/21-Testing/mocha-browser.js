@@ -2474,7 +2474,9 @@
         test.speed =
           test.duration > test.slow()
             ? "slow"
-            : test.duration > medium ? "medium" : "fast";
+            : test.duration > medium
+              ? "medium"
+              : "fast";
 
         stats.passes++;
       });
@@ -3059,7 +3061,7 @@
 
       runner.on("test end", function(test) {
         // TODO: add to stats
-        var percent = (stats.tests / this.total * 100) | 0;
+        var percent = ((stats.tests / this.total) * 100) | 0;
         if (progress) progress.update(percent).draw(ctx);
 
         // update stats
@@ -3376,7 +3378,7 @@
       });
 
       if (ret.sloc > 0) {
-        ret.coverage = ret.hits / ret.sloc * 100;
+        ret.coverage = (ret.hits / ret.sloc) * 100;
       }
 
       return ret;
@@ -3419,7 +3421,7 @@
         };
       });
 
-      ret.coverage = ret.hits / ret.sloc * 100;
+      ret.coverage = (ret.hits / ret.sloc) * 100;
 
       return ret;
     }
@@ -3678,7 +3680,7 @@
 
       runner.on("test end", function(test) {
         // check if the plane crashed
-        var col = -1 == crashed ? (width * ++n / total) | 0 : crashed;
+        var col = -1 == crashed ? ((width * ++n) / total) | 0 : crashed;
 
         // show the crash
         if ("failed" == test.state) {
@@ -6372,8 +6374,7 @@
 
       var re = new RegExp("\\.(" + ext.join("|") + ")$");
 
-      fs
-        .readdirSync(dir)
+      fs.readdirSync(dir)
         .filter(ignored)
         .forEach(function(path) {
           path = join(dir, path);

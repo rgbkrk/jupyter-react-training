@@ -8,4 +8,3 @@
 - combineReducers
 - load contacts from server
 - async actions and thunk
-

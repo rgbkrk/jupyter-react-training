@@ -1,0 +1,21 @@
+.container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0px;
+  left: 0px;
+  padding: 0 20px;
+  cursor: url(./images/mouse.png), auto;
+}
+
+.cat {
+  position: absolute;
+  transition: top 200ms ease-out, left 200ms ease-out;
+  width: 100px;
+  height: 100px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50% 0;
+  background-image: url(./images/cat.jpg);
+  cursor: url(./images/mouse.png), auto;
+}

@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #333;
+}
+
+ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  white-space: nowrap;
+}

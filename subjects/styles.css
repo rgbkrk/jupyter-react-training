@@ -1,0 +1,64 @@
+.index-header {
+  max-width: 800px;
+  margin: 30px auto 40px;
+  text-align: center;
+}
+.index-header img {
+  width: 300px;
+}
+@media (max-width: 600px) {
+  .index-header {
+    margin: 10px auto 20px;
+  }
+}
+
+.index-subjectsTable {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.index-subjectsTable a:link,
+.index-subjectsTable a:visited {
+  color: blue;
+}
+.index-subjectsTable tr:nth-child(even) {
+  background: #eef;
+}
+.index-subjectsTable td {
+  padding: 10px;
+  text-align: left;
+}
+
+.index-subjectNumber {
+  font-size: 1.5em;
+  color: #aaa;
+}
+
+.index-lecture {
+  font-size: 1.5em;
+}
+.index-lecture a:link,
+.index-lecture a:visited {
+  color: black;
+}
+
+.index-exercise {
+  padding-left: 20px;
+}
+
+.index-footer {
+  max-width: 800px;
+  margin: 40px auto 60px;
+  text-align: center;
+  font-size: 0.8em;
+  color: #ccc;
+}
+.index-footer a:link,
+.index-footer a:visited {
+  color: #ccc;
+}
+@media (max-width: 600px) {
+  .index-footer {
+    margin: 20px auto 40px;
+  }
+}

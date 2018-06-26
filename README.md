@@ -1,6 +1,6 @@
-## Welcome to React Training!
+## Welcome to React Training (for Jovyans)!
 
-This repo contains course material from [React Training](https://reacttraining.com/) (thanks react-training folks!). At the start of the training we'll make sure everyone can run this repository.
+This repo contains course material from [React Training](https://reacttraining.com/) (thanks react-training folks!). It's going to get modified over time to fit training folks for Jupyter-centric work. At the start of the training we'll make sure everyone can run this repository.
 
 First, install [git](http://git-scm.com/downloads) and the latest stable version of [node](https://nodejs.org/). Then:
 

@@ -1,55 +1,64 @@
-Why React?
-==========
+# Why React?
 
-Coming from jQuery
-------------------
+## Coming from jQuery
 
 ```js
-var $input = $('<input/>')
-var $results = $('<ul/>')
-$input.on('keyup', debounce(function (event) {
-  $.getJSON(url, function (data) {
-    var html = ''
-    data.results.forEach(function (result) {
-      var li = $('<li/>')
-      var html = '<h2>' +
-                    result.title +
-                 '  <button data-id="'+result.id+'" class="remove">' +
-                 '    remove' +
-                 '  </button>' +
-                 '</h2>' +
-                 '<p>Posted <span class="timeAgo"></span></p>' +
-                 '<p>'+result.description+'</p>'
-                 '<div class="modal" style="display: none">' +
-                 '  Are you sure sure?' +
-                 '  <button class="no">No</button> ' +
-                 '  <button class="yes">Yes</button>' +
-                 '</div>'
-      $li.html(html)
-      setInterval(function () {
-        $li.find('.timeAgo').html(timeAgo(result.posted_at))
-      }, 1000)
-    })
-    $results.html(html)
+var $input = $("<input/>");
+var $results = $("<ul/>");
+$input.on(
+  "keyup",
+  debounce(function(event) {
+    $.getJSON(url, function(data) {
+      var html = "";
+      data.results.forEach(function(result) {
+        var li = $("<li/>");
+        var html =
+          "<h2>" +
+          result.title +
+          '  <button data-id="' +
+          result.id +
+          '" class="remove">' +
+          "    remove" +
+          "  </button>" +
+          "</h2>" +
+          '<p>Posted <span class="timeAgo"></span></p>' +
+          "<p>" +
+          result.description +
+          "</p>";
+        '<div class="modal" style="display: none">' +
+          "  Are you sure sure?" +
+          '  <button class="no">No</button> ' +
+          '  <button class="yes">Yes</button>' +
+          "</div>";
+        $li.html(html);
+        setInterval(function() {
+          $li.find(".timeAgo").html(timeAgo(result.posted_at));
+        }, 1000);
+      });
+      $results.html(html);
 
-    $results.find('.remove').on('click', function (event) {
-      var $el = $(event.target)
-      var $dialog = $el.find('.modal').dialog()
+      $results.find(".remove").on("click", function(event) {
+        var $el = $(event.target);
+        var $dialog = $el.find(".modal").dialog();
 
-      $el.find('.no').on('click', function () {
-        $dialog.dialog('close')
-      })
+        $el.find(".no").on("click", function() {
+          $dialog.dialog("close");
+        });
 
-      $el.find('.yes').on('click', function () {
-        $.post(deleteUrl+'/'+$el.data('id'))
-        $dialog.dialog('close')
-        $el.parent().remove()
-      })
-    })
-  })
-}), 500)
+        $el.find(".yes").on("click", function() {
+          $.post(deleteUrl + "/" + $el.data("id"));
+          $dialog.dialog("close");
+          $el.parent().remove();
+        });
+      });
+    });
+  }),
+  500
+);
 
-$('#app').append($input).append($results)
+$("#app")
+  .append($input)
+  .append($results);
 ```
 
 - extremely imperative, have to set up every instance of every
@@ -60,22 +69,21 @@ $('#app').append($input).append($results)
 - have to manage the state of those instances over time
 - knowing when and how to teardown is difficult
 - XSS bugs all over the place
+- Bonus: https://medium.com/@Elijah_Meeks/d3-is-not-a-data-visualization-library-67ba549e8520
 
 Most important questions when looking at code:
 
 - What state is there?
 - When does it change?
 
-Coming from Backbone
---------------------
+## Coming from Backbone
 
 No significant difference from the jQuery version, but the code is
 better organized. Still very imperative, teardown is difficult, not
 composable, have to piece together the UI manually and careful manage
 state over time.
 
-Coming from Angular?
---------------------
+## Coming from Angular?
 
 Fixes most of the issues, but introduces some new ones.
 
@@ -87,7 +95,7 @@ Fixes most of the issues, but introduces some new ones.
 > July 7, 2014
 >
 > Vojta brought up some points that we don’t yet have plans to solve
-> some problems we see in larger apps.  In particular, how developers
+> some problems we see in larger apps. In particular, how developers
 > can reason about data flow within an app.
 >
 > Key points: scope hierarchy is a huge pile of shared state that many
@@ -110,8 +118,7 @@ values to your UI.
 - Changes are hard to track down/predict
 - Mutation is required
 
-Stocks v. Flows
----------------
+## Stocks v. Flows
 
 `5` v. `5 mph`
 
@@ -121,8 +128,7 @@ Stocks v. Flows
 - Prefer composition over ... not ... composition ...
 - Optimize for "fixing bugs later", not "building today".
 
-And now ... React
------------------
+## And now ... React
 
 React makes the answers obvious to these questions:
 
@@ -135,7 +141,7 @@ It also allows you to think about your app as a "Stock" instead of a
 But first, lets talk about functions, pure functions to be exact:
 
 ```js
-var add = (x, y) => x + y
+var add = (x, y) => x + y;
 ```
 
 - will always return the same value given the same input
@@ -143,13 +149,13 @@ var add = (x, y) => x + y
 
 ```js
 // either as part of the new function's definition
-var double = (x) => add(x, x)
+var double = x => add(x, x);
 
 // or used to pass in arguments to the function
-double(add(x, y), z)
+double(add(x, y), z);
 
 // or even passed INTO a function
-var double = (adder, value) => adder(value)
+var double = (adder, value) => adder(value);
 ```
 
 Pure functions are incredibly versatile. They are completely isolated
@@ -161,17 +167,18 @@ React components are literally functions that return a
 description of UI that will get rendered.
 
 ```js
-var input = React.DOM.input({type: 'password'})
-render(input, document.body)
+var input = React.DOM.input({ type: "password" });
+render(input, document.body);
 ```
 
 ```js
-var { div, h1, p } = React.DOM
-var element = div({ className: 'App' },
-                   h1(null, 'Hello!'),
-                   p(null, 'lorem ipsum ...'),
-                 )
-render(element, document.body)
+var { div, h1, p } = React.DOM;
+var element = div(
+  { className: "App" },
+  h1(null, "Hello!"),
+  p(null, "lorem ipsum ...")
+);
+render(element, document.body);
 ```
 
 Lets get back to some math. We can create our own types of components in
@@ -179,28 +186,28 @@ React:
 
 ```js
 var Add = React.createClass({
-  render () {
-    var sum = this.props.x + this.props.y
-    return React.DOM.span({}, sum)
+  render() {
+    var sum = this.props.x + this.props.y;
+    return React.DOM.span({}, sum);
   }
-})
+});
 
 // don't worry about this rn
-Add = React.createFactory(Add)
+Add = React.createFactory(Add);
 
-var element = Add({ x: 2, y: 3 }) // <span>5</span>
+var element = Add({ x: 2, y: 3 }); // <span>5</span>
 
 var Double = React.createClass({
-  render () {
+  render() {
     return Add({
       x: this.props.value,
       y: this.props.value
-    })
+    });
   }
-})
+});
 
-Double = React.createFactory(Double)
-var element = Double({ value: 2 }) // <span>4</span>
+Double = React.createFactory(Double);
+var element = Double({ value: 2 }); // <span>4</span>
 ```
 
 Just functions. Two differences with "normal" functions:
@@ -211,17 +218,18 @@ Just functions. Two differences with "normal" functions:
 About that `factory` stuff.
 
 ```js
-var Foo = React.createClass({ /* ... */})
-var element = React.createElement(Foo, props)
+var Foo = React.createClass({
+  /* ... */
+});
+var element = React.createElement(Foo, props);
 // v.
-Foo = React.createFactory(Foo)
-var element = Foo(props)
+Foo = React.createFactory(Foo);
+var element = Foo(props);
 ```
 
 That only matters if you're not using JSX. We're going to be using JSX.
 
-JSX
----
+## JSX
 
 Now that we know that React components are just functions, perhaps JSX
 won't make you puke. XML is a pretty great way to express user interface
@@ -229,15 +237,18 @@ components. XML elements have a name, some properties, and hierarchy,
 just like UI.
 
 ```js
-var element = <div className="App">
-                <h1 className="Title">Hello!</h1>
-                <p>Pork Carnitas street tacos are the best</p>
-              </div>
+var element = (
+  <div className="App">
+    <h1 className="Title">Hello!</h1>
+    <p>Pork Carnitas street tacos are the best</p>
+  </div>
+);
 
-var element = div({ className: "App" },
-                h1({ className: "Title" }, 'Hello!'),
-                p(null, 'Pork Carnitas street tacos are the best')
-              )
+var element = div(
+  { className: "App" },
+  h1({ className: "Title" }, "Hello!"),
+  p(null, "Pork Carnitas street tacos are the best")
+);
 ```
 
 Again, JSX is really just a different way to call functions. Arrays
@@ -250,19 +261,19 @@ This avoids the "globals" problem in Ember, Angular and Web Components,
 too.
 
 ```js
-import SomeThing from './SomeThing'
+import SomeThing from "./SomeThing";
 
 const App = React.createClass({
   render() {
-    var Renamed = Something
+    var Renamed = Something;
     return (
       <div>
-        <SomeThing/>
-        <Renamed/>
+        <SomeThing />
+        <Renamed />
       </div>
-    )
+    );
   }
-})
+});
 ```
 
 You don't have to rely on and learn the framework's reinvention of the
@@ -295,9 +306,9 @@ Things you have to learn to make this work:
 // React
 var options = months.map((month, index) => (
   <FancyOption>
-    {month} ({ padMonth(index) })
+    {month} ({padMonth(index)})
   </FancyOption>
-))
+));
 ```
 
 Things you have to know:
@@ -305,8 +316,7 @@ Things you have to know:
 - JavaScript
 - `React.createClass`
 
-Always Rerender
----------------
+## Always Rerender
 
 Because React Elements are just descriptions of UI, not the actual UI,
 when things change, it can do a diff of the old values with the new
@@ -323,15 +333,14 @@ descriptions in memory.
 - Render is stateless, just like a server app, that's why you can
   actually write a server rendered app in React.
 
-Data Flow & Transactional UI
-----------------------------
+## Data Flow & Transactional UI
 
 Instead of sharing data on something like `$scope`, or observable
 objects throughout the app, React restricts the data in your components
 to two places: State and Props.
 
 Data flows down your UI hierarchy. A parent's state or props flow down
-to the props of another component.  There is clear ownership of data and
+to the props of another component. There is clear ownership of data and
 "contracts" among components when passing it down.
 
 The effect of this data flow is that you can open up the file for a
@@ -346,5 +355,3 @@ to be able to decide precisely when to update the UI. React doesn't
 rerender until you tell it you're ready.
 
 Let's dig in.
-
-
